@@ -1,14 +1,19 @@
 package frontend;
 
+import backend.FileFilterGpx;
+import backend.TrackService;
 import backend.ZoomSlider;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 //TODO Aggiungere listener (e creare relative funzioni) per alcune voci di menu
 
 public class MainFrame extends JFrame {
     private LayerManager layerManager;
+    private TrackService trackService;
     private ZoomSlider zoomSlider;
 
     public MainFrame(int width, int height) {
@@ -36,6 +41,7 @@ public class MainFrame extends JFrame {
         });
         add(zoomSlider, BorderLayout.NORTH);
         layerManager.setSlider(zoomSlider);
+        trackService = new TrackService();
 
         setJMenuBar(createMenuBar());
     }
@@ -44,7 +50,7 @@ public class MainFrame extends JFrame {
         //Menu file
         JMenu file = new JMenu("File");
         JMenuItem f_open = new JMenuItem("Apri");
-        /* JMenuItem f_open = new JMenuItem("Apri");
+        /*
         f_open.addActionListener(e -> {
             layerManager.getMapLayer().removeText();
             JFileChooser fc = new JFileChooser();
@@ -55,6 +61,8 @@ public class MainFrame extends JFrame {
             }
             layerManager.startToListen();
         });
+        */
+
         JMenuItem f_openTrack = new JMenuItem("Apri traccia");
         f_openTrack.addActionListener(e -> {
             JFileChooser fc = new JFileChooser();
@@ -63,11 +71,14 @@ public class MainFrame extends JFrame {
             int returnValue = fc.showOpenDialog(this);
             if(returnValue == JFileChooser.APPROVE_OPTION) {
                 File f = fc.getSelectedFile();
-
+                try{
+                    trackService.getTrackGpx(f);
+                }catch(IOException exception){
+                    //option pane
+                }
             }
-            layerManager.startToListen();
         });
-        */
+
         JMenuItem f_save = new JMenuItem("Salva");
         JMenuItem f_saveAs = new JMenuItem("Salva con nome");
         JMenuItem f_exit = new JMenuItem("Esci");
