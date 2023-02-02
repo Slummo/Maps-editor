@@ -3,11 +3,17 @@ package frontend;
 import backend.Layer;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class MapLayer extends Layer {
     private final BufferedImage image;
+    private int y;
+    private int x;
     private final Point clickLocation, imageLocation;
     //private final AffineTransform transform = new AffineTransform();
 
@@ -18,13 +24,13 @@ public class MapLayer extends Layer {
         imageLocation = new Point();
         setSize(getPreferredSize());
         //Sets the layer top-left position (0, 0), and to go right and down you need negative values)
-        setLocation(image.getWidth() / -2, image.getHeight() / -2);
+        setLocation(0, 0);
     }
 
     @Override
     public Dimension getPreferredSize() {
-        int width = (int)(image.getWidth() * scale);
-        int height = (int)(image.getHeight() * scale);
+        int width = (int)(image.getWidth());
+        int height = (int)(image.getHeight());
         return new Dimension(width, height);
     }
 
@@ -51,9 +57,7 @@ public class MapLayer extends Layer {
         //g2.drawImage(image, transform, this);
     }
 
-    /*
-    public AffineTransform getTransform() {
-        return transform;
-    }
-     */
+
+
+
 }
