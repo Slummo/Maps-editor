@@ -46,6 +46,7 @@ public class RoadLayer extends Layer {
         g2.setStroke(new BasicStroke((float) (5 * scale)));
         for (Segment segment : segments) {
             g2.setColor(segment.color);
+            System.out.println(segment.x1 + " " + segment.y1);
             System.out.println(scale);
             g2.drawLine(
                     (int) ((segment.x1 + segment.offset.x) * scale),

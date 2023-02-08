@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
             if(returnValue == JFileChooser.APPROVE_OPTION) {
                 File f = fc.getSelectedFile();
                 try{
-                    trackService.getTrackGpx(f);
+                    TrackService.getTrackGpx(f);
                 }catch(IOException exception){
                     //option pane
                 }

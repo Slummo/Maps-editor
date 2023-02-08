@@ -1,13 +1,9 @@
 package frontend;
 
 import backend.Layer;
+import backend.TrackService;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class MapLayer extends Layer {
@@ -17,9 +13,11 @@ public class MapLayer extends Layer {
     private final Point clickLocation, imageLocation;
     //private final AffineTransform transform = new AffineTransform();
 
-    public MapLayer(int index, BufferedImage image) {
+    public MapLayer(int index, BufferedImage image, String pathToTfw) {
         super(index);
-        this.image = image;
+        //Parses to int the first string of the array returned by getTrackGeneralInfo(); this array contains
+        //info from the tfw file; in particular the first string is the pixel ratio
+        this.image = getScaledImage(image, Double.parseDouble(TrackService.getTrackGeneralInfo(pathToTfw)[0]));
         clickLocation = new Point();
         imageLocation = new Point();
         setSize(getPreferredSize());
@@ -54,10 +52,18 @@ public class MapLayer extends Layer {
                 (int) (getPreferredSize().getHeight()),
                 this
         );
-        //g2.drawImage(image, transform, this);
     }
 
+    public BufferedImage getScaledImage(BufferedImage image, double pixelRatio) {
+        int newWidth = (int) (image.getWidth() * pixelRatio);
+        int newHeight = (int) (image.getHeight() * pixelRatio);
+        Image newImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_DEFAULT);
+        image = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
 
+        Graphics2D g2 = image.createGraphics();
+        g2.drawImage(newImage, 0, 0, null);
+        g2.dispose();
 
-
+        return image;
+    }
 }

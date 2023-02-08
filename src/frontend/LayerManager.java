@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class LayerManager extends JLayeredPane implements UniversalListener {
     private MapLayer mapLayer;
@@ -19,10 +18,6 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
     private ZoomSlider slider;
     private double scale;
     private double zoomFactor;
-
-    private int xPressed, yPressed;
-    private int xReleased, yReleased;
-    private int spaceMovedX = 0, spaceMovedY = 0;
 
     public LayerManager() {
         scale = 1.0;
@@ -39,7 +34,7 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
         ImageService imgService = new ImageService();
         BufferedImage image = imgService.getMapImage(System.getProperty("user.dir") + "/src/assets/peve.png");
 
-        mapLayer = new MapLayer(0, image);
+        mapLayer = new MapLayer(0, image, System.getProperty("user.dir") + "/src/assets/peve.tfw");
 
         roadLayer = new RoadLayer(1, mapLayer.getPreferredSize());
 
@@ -51,19 +46,19 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-            Segment currentSegment = roadLayer.getCurrentSegment();
+        Segment currentSegment = roadLayer.getCurrentSegment();
 
-            if (!currentSegment.hasFirstPoint()) {
-                currentSegment.x1 = e.getX();
-                currentSegment.y1 = e.getY();
-            } else {
-                currentSegment.x2 = e.getX();
-                currentSegment.y2 = e.getY();
-                roadLayer.addSegment();
-                removeMouseListener(this);
-                System.out.println("Listener rimosso");
-            }
+        if (!currentSegment.hasFirstPoint()) {
+            currentSegment.x1 = e.getX();
+            currentSegment.y1 = e.getY();
+        } else {
+            currentSegment.x2 = e.getX();
+            currentSegment.y2 = e.getY();
+            roadLayer.addSegment();
+            removeMouseListener(this);
+            System.out.println("Listener rimosso");
         }
+    }
 
 
     @Override
@@ -105,21 +100,6 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
         if(amount > 0) setScale(zoomFactor -= 1);
         if(amount < 0) setScale(zoomFactor += 1);
         slider.setValue((int) zoomFactor);
-    }
-
-    public void mousePressed(MouseEvent e){
-        xPressed = (int) (e.getX());
-        yPressed = (int) (e.getY());
-    }
-
-
-    public void mouseReleased(MouseEvent e){
-        xReleased = (int) (e.getX());
-        yReleased = (int) (e.getY());
-        spaceMovedX += ((xReleased - xPressed) * -1)/ scale;
-        spaceMovedY += ((yReleased - yPressed) * -1)/ scale;
-        System.out.println(spaceMovedX);
-        System.out.println(spaceMovedY + " aakd");
     }
 
     public void setSlider(ZoomSlider slider) {
