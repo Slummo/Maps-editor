@@ -29,8 +29,8 @@ public class MapLayer extends Layer {
 
     @Override
     public Dimension getPreferredSize() {
-        int width = (int)(image.getWidth());
-        int height = (int)(image.getHeight());
+        int width = (int)(image.getWidth() * scale);
+        int height = (int)(image.getHeight() * scale);
         return new Dimension(width, height);
     }
 

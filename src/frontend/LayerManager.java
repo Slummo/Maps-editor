@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class LayerManager extends JLayeredPane implements UniversalListener {
     private MapLayer mapLayer;
@@ -19,10 +20,15 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
     private double scale;
     private double zoomFactor;
 
+    private int xPressed, yPressed;
+    private int xReleased, yReleased;
+    private int spaceMovedX = 0, spaceMovedY = 0;
+
     public LayerManager() {
         scale = 1.0;
         zoomFactor = 10.0;
         setLayout(null);
+        addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         init();
@@ -45,20 +51,20 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Segment currentSegment = roadLayer.getCurrentSegment();
+            Segment currentSegment = roadLayer.getCurrentSegment();
 
-        if(!currentSegment.hasFirstPoint()) {
-            currentSegment.x1 = e.getX();
-            currentSegment.y1 = e.getY();
+            if (!currentSegment.hasFirstPoint()) {
+                currentSegment.x1 = e.getX();
+                currentSegment.y1 = e.getY();
+            } else {
+                currentSegment.x2 = e.getX();
+                currentSegment.y2 = e.getY();
+                roadLayer.addSegment();
+                removeMouseListener(this);
+                System.out.println("Listener rimosso");
+            }
         }
-        else {
-            currentSegment.x2 = e.getX();
-            currentSegment.y2 = e.getY();
-            roadLayer.addSegment();
-            removeMouseListener(this);
-            System.out.println("Listener rimosso");
-        }
-    }
+
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -99,6 +105,21 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
         if(amount > 0) setScale(zoomFactor -= 1);
         if(amount < 0) setScale(zoomFactor += 1);
         slider.setValue((int) zoomFactor);
+    }
+
+    public void mousePressed(MouseEvent e){
+        xPressed = (int) (e.getX());
+        yPressed = (int) (e.getY());
+    }
+
+
+    public void mouseReleased(MouseEvent e){
+        xReleased = (int) (e.getX());
+        yReleased = (int) (e.getY());
+        spaceMovedX += ((xReleased - xPressed) * -1)/ scale;
+        spaceMovedY += ((yReleased - yPressed) * -1)/ scale;
+        System.out.println(spaceMovedX);
+        System.out.println(spaceMovedY + " aakd");
     }
 
     public void setSlider(ZoomSlider slider) {
