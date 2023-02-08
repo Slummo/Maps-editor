@@ -1,9 +1,6 @@
 package frontend;
 
-import backend.ImageService;
-import backend.Segment;
-import backend.UniversalListener;
-import backend.ZoomSlider;
+import backend.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,12 +28,18 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
     }
 
     private void init() {
+        String assetsFolderPath = System.getProperty("user.dir") + "/src/assets/";
+
+        String pngPath = assetsFolderPath + "peve.png";
+        String tfwPath = assetsFolderPath + "peve.tfw";
+        String gpxPath = assetsFolderPath + "peve.gpx";
+
         ImageService imgService = new ImageService();
-        BufferedImage image = imgService.getMapImage(System.getProperty("user.dir") + "/src/assets/peve.png");
+        BufferedImage image = imgService.getMapImage(pngPath);
 
-        mapLayer = new MapLayer(0, image, System.getProperty("user.dir") + "/src/assets/peve.tfw");
+        mapLayer = new MapLayer(0, image, tfwPath);
 
-        roadLayer = new RoadLayer(1, mapLayer.getPreferredSize());
+        roadLayer = new RoadLayer(1, mapLayer.getPreferredSize(), gpxPath, tfwPath);
 
         setSize(mapLayer.getPreferredSize());
 

@@ -2,6 +2,7 @@ package frontend;
 
 import backend.Layer;
 import backend.Segment;
+import backend.TrackService;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,11 +10,12 @@ import java.util.ArrayList;
 public class RoadLayer extends Layer {
     private final ArrayList<Segment> segments;
     private Segment currentSegment;
+    private final Color ADDED_SEGMENTS_COLOR = Color.BLUE;
 
-    public RoadLayer(int index, Dimension size) {
+    public RoadLayer(int index, Dimension size, String gpxPath, String tfwPath) {
         super(index);
-        segments = new ArrayList<>();
-        currentSegment = new Segment();
+        segments = TrackService.getTrackGpx(gpxPath, tfwPath);
+        currentSegment = new Segment(ADDED_SEGMENTS_COLOR);
 
         setSize(size);
         setVisible(true);
@@ -29,7 +31,7 @@ public class RoadLayer extends Layer {
 
     public void addSegment() {
         segments.add(currentSegment);
-        currentSegment = new Segment();
+        currentSegment = new Segment(ADDED_SEGMENTS_COLOR);
         repaint();
     }
 

@@ -13,7 +13,6 @@ import java.io.IOException;
 
 public class MainFrame extends JFrame {
     private LayerManager layerManager;
-    private TrackService trackService;
     private ZoomSlider zoomSlider;
 
     public MainFrame(int width, int height) {
@@ -41,7 +40,6 @@ public class MainFrame extends JFrame {
         });
         add(zoomSlider, BorderLayout.NORTH);
         layerManager.setSlider(zoomSlider);
-        trackService = new TrackService();
 
         setJMenuBar(createMenuBar());
     }
@@ -63,7 +61,7 @@ public class MainFrame extends JFrame {
         });
         */
 
-        JMenuItem f_openTrack = new JMenuItem("Apri traccia");
+        /*JMenuItem f_openTrack = new JMenuItem("Apri traccia");
         f_openTrack.addActionListener(e -> {
             JFileChooser fc = new JFileChooser();
             fc.addChoosableFileFilter(new FileFilterGpx());
@@ -77,7 +75,7 @@ public class MainFrame extends JFrame {
                     //option pane
                 }
             }
-        });
+        }); */
 
         JMenuItem f_save = new JMenuItem("Salva");
         JMenuItem f_saveAs = new JMenuItem("Salva con nome");
@@ -106,6 +104,6 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        MainFrame mf = new MainFrame();
+        new MainFrame();
     }
 }

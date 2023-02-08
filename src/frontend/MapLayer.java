@@ -8,10 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class MapLayer extends Layer {
     private final BufferedImage image;
-    private int y;
-    private int x;
     private final Point clickLocation, imageLocation;
-    //private final AffineTransform transform = new AffineTransform();
 
     public MapLayer(int index, BufferedImage image, String pathToTfw) {
         super(index);
