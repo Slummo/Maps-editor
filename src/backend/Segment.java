@@ -9,6 +9,8 @@ public class Segment {
     public int y2;
     public Color color;
     public Point offset;
+    public int Zone;
+    public char Letter;
 
     public Segment(int x1, int y1, int x2, int y2, Color color) {
         this(color);
@@ -40,9 +42,15 @@ public class Segment {
         //      </trkpt>
 
         //Passare la stringa giusta
-        CordsConverter.UTM2Deg converter = new CordsConverter.UTM2Deg("");
-        double lat = converter.latitude;
-        double lon = converter.longitude;
+
+        //Creare classe che estende punto con tutte le info
+        CordsConverter.UTM2Deg converter = new CordsConverter.UTM2Deg(Zone + Letter + "" /*easting e northing*/);
+        double lat1 = converter.latitude;
+        double lon1 = converter.longitude;
+
+        CordsConverter.UTM2Deg converter2 = new CordsConverter.UTM2Deg("");
+        double lat2 = converter2.latitude;
+        double lon2 = converter2.longitude;
 
         String l1 = "<trkpt lat=\"" + lat + "\" " + "lon=\"" + lon + "\">\n";
         String l2 = "<ele>0</ele>\n";
