@@ -128,4 +128,8 @@ public class LayerManager extends JLayeredPane implements UniversalListener {
         mapLayer.setScale(this.scale);
         roadLayer.setScale(this.scale);
     }
+
+    public RoadLayer getRoadLayer() {
+        return roadLayer;
+    }
 }

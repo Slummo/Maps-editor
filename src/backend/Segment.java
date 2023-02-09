@@ -31,4 +31,24 @@ public class Segment {
     public String toString() {
         return "x1 = " + x1 + " y1 = " + y1 + "\nx2 = " + x2 + " y2 = " + y2+ " Offset = " + offset.x + " " + offset.y;
     }
+
+    public String toGpxString() {
+        //es.
+        //<trkpt lat="44.3323060" lon="7.6186505">
+        //        <ele>566.8344727</ele>
+        //        <time>2018-12-02T10:32:34Z</time>
+        //      </trkpt>
+
+        //Passare la stringa giusta
+        CordsConverter.UTM2Deg converter = new CordsConverter.UTM2Deg("");
+        double lat = converter.latitude;
+        double lon = converter.longitude;
+
+        String l1 = "<trkpt lat=\"" + lat + "\" " + "lon=\"" + lon + "\">\n";
+        String l2 = "<ele>0</ele>\n";
+        String l3 = "<time>0</time>\n";
+        String l4 = "</trkpt>\n";
+
+        return l1 + l2 + l3 + l4;
+    }
 }

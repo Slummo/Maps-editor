@@ -47,8 +47,8 @@ public class MainFrame extends JFrame {
     private JMenuBar createMenuBar() {
         //Menu file
         JMenu file = new JMenu("File");
-        JMenuItem f_open = new JMenuItem("Apri");
-        /*
+
+        /*JMenuItem f_openMap = new JMenuItem("Apri");
         f_open.addActionListener(e -> {
             layerManager.getMapLayer().removeText();
             JFileChooser fc = new JFileChooser();
@@ -77,13 +77,21 @@ public class MainFrame extends JFrame {
             }
         }); */
 
-        JMenuItem f_save = new JMenuItem("Salva");
-        JMenuItem f_saveAs = new JMenuItem("Salva con nome");
+        JMenuItem f_export = new JMenuItem("Esporta");
+        f_export.addActionListener(e -> {
+            JFileChooser fc = new JFileChooser();
+            int returnValue = fc.showSaveDialog(this);
+            if(returnValue == JFileChooser.APPROVE_OPTION) {
+                File f = fc.getSelectedFile();
+                layerManager.getRoadLayer().exportAsGpx(f.getAbsolutePath());
+            }
+        });
+
         JMenuItem f_exit = new JMenuItem("Esci");
-        file.add(f_open);
+        f_exit.addActionListener(e -> System.exit(0));
+        //file.add(f_open);
         file.addSeparator();
-        file.add(f_save);
-        file.add(f_saveAs);
+        file.add(f_export);
         file.addSeparator();
         file.add(f_exit);
 

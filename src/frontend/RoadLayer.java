@@ -40,6 +40,11 @@ public class RoadLayer extends Layer {
         repaint();
     }
 
+    public void exportAsGpx(String path) {
+        //TODO
+        TrackService.exportAsGpx(path, segments);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
